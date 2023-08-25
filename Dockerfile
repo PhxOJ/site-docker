@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:buster
 
 # DMOJ Site Dockerfile
 # If you are using external judgers, UNCOMMENT last two lines.
@@ -15,25 +15,25 @@ RUN echo 'deb http://mirrors.ustc.edu.cn/nodesource/deb/node_12.x buster main' >
     echo 'deb http://nginx.org/packages/debian/ buster nginx' >> /etc/apt/sources.list && \
     wget -qO - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
     wget -qO - https://nginx.org/keys/nginx_signing.key | apt-key add - && \
-    apt-get update && apt-get install -y nginx && \
-    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
-    apt-get install -y nodejs && \
+    apt-get update && apt-get install -y nodejs nginx
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install -g sass postcss postcss-cli autoprefixer && \
     apt-get clean
-RUN npm install -g cnpm --registry=http://registry.npm.taobao.org && \
-    cnpm install -g sass postcss postcss-cli autoprefixer
-
 
 RUN useradd -m -U dmoj
 
 WORKDIR /site
-RUN git clone https://github.com/schoj/site.git /site --depth=1 --branch=2.0-master
+RUN git clone https://github.com/phxoj/site.git /site
 RUN git submodule init && \
     git config -f .gitmodules submodule.resources/libs.shallow true && \
     git config -f .gitmodules submodule.resources/pagedown.shallow true && \
     git submodule update
-RUN pip3 install -r requirements.txt && \
+RUN pip3 config set global.index-url https://opentuna.cn/pypi/web/simple && \
+    pip3 install --upgrade pip && \
+    pip3 install -r requirements.txt && \
     pip3 install mysqlclient django_select2 websocket-client pymysql uWSGI
-RUN cnpm install qu ws simplesets
+RUN npm install qu ws simplesets
 COPY local_settings.py /site/dmoj
 COPY config.js /site/websocket
 
