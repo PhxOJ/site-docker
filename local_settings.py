@@ -166,7 +166,7 @@ EVENT_DAEMON_USE = True
 
 # If you are using the defaults from the guide, it is this:
 #EVENT_DAEMON_POST = 'ws://127.0.0.1:15101/'
-EVENT_DAEMON_POST = 'ws://host:15101/'
+EVENT_DAEMON_POST = 'ws://127.0.0.1:15101/'
 
 # These are the publicly accessed interface configurations.
 # They should match those used by the script.
@@ -179,8 +179,8 @@ EVENT_DAEMON_POST = 'ws://host:15101/'
 #EVENT_DAEMON_GET = 'ws://<your domain>/event/'
 #EVENT_DAEMON_GET_SSL = 'wss://<your domain>/event/' # Optional
 #EVENT_DAEMON_POLL = '/channels/'
-EVENT_DAEMON_GET = 'ws://host/event/'
-EVENT_DAEMON_GET_SSL = 'wss://host/event/'  # Optional
+EVENT_DAEMON_GET = 'ws://127.0.0.1/event/'
+EVENT_DAEMON_GET_SSL = 'wss://127.0.0.1/event/'  # Optional
 EVENT_DAEMON_POLL = '/channels/'
 
 # If you would like to use the AMQP-based event server from <https://github.com/DMOJ/event-server>,
