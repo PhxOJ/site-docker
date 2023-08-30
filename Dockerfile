@@ -17,14 +17,14 @@ RUN echo 'deb http://mirrors.ustc.edu.cn/nodesource/deb/node_12.x buster main' >
     wget -qO - https://nginx.org/keys/nginx_signing.key | apt-key add - && \
     apt-get update && apt-get install -y nodejs nginx
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
-RUN apt-get install -y nodejs
+RUN apt-get install -y nodejs redis
 RUN npm install -g sass postcss postcss-cli autoprefixer && \
     apt-get clean
 
 RUN useradd -m -U dmoj
 
 WORKDIR /site
-RUN git clone https://github.com/phxoj/site.git /site
+RUN git clone -b dev https://github.com/phxoj/site.git /site
 RUN git submodule init && \
     git config -f .gitmodules submodule.resources/libs.shallow true && \
     git config -f .gitmodules submodule.resources/pagedown.shallow true && \
@@ -32,7 +32,9 @@ RUN git submodule init && \
 RUN pip3 config set global.index-url https://opentuna.cn/pypi/web/simple && \
     pip3 install --upgrade pip && \
     pip3 install -r requirements.txt && \
-    pip3 install mysqlclient django_select2 websocket-client pymysql uWSGI
+    pip3 install mysqlclient django_select2 websocket-client pymysql uWSGI && \
+    pip3 install celery && \
+    pip3 install redis
 RUN npm install qu ws simplesets
 COPY local_settings.py /site/dmoj
 COPY config.js /site/websocket

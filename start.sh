@@ -15,5 +15,6 @@ if [ ! -e /site/install_done ]; then
     touch /site/install_done
 fi
 service nginx start
+service redis-server start
 service supervisor start
 tail -F /tmp/site.stderr.log

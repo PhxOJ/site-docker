@@ -48,7 +48,6 @@ DATABASES = {
     }
 }
 
-PROBLEM_DATA_ROOT = '/problems'
 
 # Sessions.
 # Documentation: <https://docs.djangoproject.com/en/1.9/topics/http/sessions/>
@@ -310,3 +309,7 @@ LOGGING = {
 ## ======== Custom Configuration ========
 # You may add whatever django configuration you would like here.
 # Do try to keep it separate so you can quickly patch in new settings.
+
+# Celery
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
